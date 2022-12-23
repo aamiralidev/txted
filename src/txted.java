@@ -27,8 +27,10 @@ public class txted {
             if(args[args.length-1].equals("") || args[args.length-1].isEmpty()){
                 System.err.println("Usage: txted [ -f | -i | -s integer | -e string | -r | -x string | -n integer ] FILE");
             }else {
-                if(!setFlags(args) || !readFromFile() || !processData() || !outputData()){
+                if(!setFlags(args) || !readFromFile() || !processData()){
                     System.err.println("Usage: txted [ -f | -i | -s integer | -e string | -r | -x string | -n integer ] FILE");
+                }else{
+                    outputData();
                 }
             }
         }
@@ -152,9 +154,14 @@ public class txted {
         return true;
     }
 
-    private boolean outputData() {
+    private void outputData() {
         if(!operationSpecified){
-            return false;
+            System.out.println("edited " + filename +  ": file not edited\n" +
+                    "stdout: nothing sent to stdout\n" +
+                    "stderr:\n" +
+                    "Usage: txted [ -f | -i | -s integer | -e string | -r | -x string | -n " +
+                    "integer ] " + filename + "\n");
+            return;
         }
         StringBuilder processedData = new StringBuilder();
         if(inPlace){
@@ -185,7 +192,6 @@ public class txted {
                 System.out.println();
             }
         }
-        return true;
     }
 
 }
