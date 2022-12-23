@@ -1,5 +1,3 @@
-package txted;
-
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -22,17 +20,15 @@ public class txted {
     String stderr = "\n";
     boolean operationSpecified = false;
     List<String> processedLines = new ArrayList<>();
-    public txted(String[] args){
+    txted(String[] args){
         if(args.length < 1){
             System.err.println("Usage: txted [ -f | -i | -s integer | -e string | -r | -x string | -n integer ] FILE");
         }else{
             if(args[args.length-1].equals("") || args[args.length-1].isEmpty()){
                 System.err.println("Usage: txted [ -f | -i | -s integer | -e string | -r | -x string | -n integer ] FILE");
             }else {
-                if(!setFlags(args) || !readFromFile() || !processData()){
+                if(!setFlags(args) || !readFromFile() || !processData() || !outputData()){
                     System.err.println("Usage: txted [ -f | -i | -s integer | -e string | -r | -x string | -n integer ] FILE");
-                }else{
-                    outputData();
                 }
             }
         }
@@ -156,14 +152,9 @@ public class txted {
         return true;
     }
 
-    private void outputData() {
+    private boolean outputData() {
         if(!operationSpecified){
-            System.out.println("edited " + filename +  ": file not edited\n" +
-                    "stdout: nothing sent to stdout\n" +
-                    "stderr:\n" +
-                    "Usage: txted [ -f | -i | -s integer | -e string | -r | -x string | -n " +
-                    "integer ] " + filename + "\n");
-            return;
+            return false;
         }
         StringBuilder processedData = new StringBuilder();
         if(inPlace){
@@ -194,6 +185,7 @@ public class txted {
                 System.out.println();
             }
         }
+        return true;
     }
 
 }

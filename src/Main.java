@@ -1,7 +1,4 @@
-import txted.txted;
-
 public class Main {
-
     public static void main(String[] args) {
         txted text = new txted(args);
     }
